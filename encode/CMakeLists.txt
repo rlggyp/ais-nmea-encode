@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(ais_nmea)
+project(ais_nmea_encode)
 
 SET(C_STANDARD 11)
 
