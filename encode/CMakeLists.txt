@@ -6,3 +6,8 @@ SET(C_STANDARD 11)
 add_executable(${PROJECT_NAME}
 	main.c
 )
+
+add_executable(${PROJECT_NAME}_example
+	main.cc
+	encode.cc
+)

@@ -82,22 +82,22 @@ void ComputeChecksum(struct AISMessage *message) {
   AddData(message, result, CHECKSUM_LENGTH);
 }
 
-void EncodeMessage9(struct AISMessage *message) {
+void EncodeMessage9(struct AISMessage *message, struct AISData const *data) {
   AddPayload(message, 9, 6); // message type
   AddPayload(message, 0, 2);
-  AddPayload(message, mmsi, 30);
-  AddPayload(message, altitude, 12);
-  AddPayload(message, speed_over_ground, 10);
-  AddPayload(message, position_accuracy, 1);
-  AddPayload(message, longitude, 28);
-  AddPayload(message, latitude, 27);
-  AddPayload(message, course_over_ground, 12);
-  AddPayload(message, time_stamp, 6);
+  AddPayload(message, data->mmsi, 30);
+  AddPayload(message, data->altitude, 12);
+  AddPayload(message, data->speed_over_ground, 10);
+  AddPayload(message, data->position_accuracy, 1);
+  AddPayload(message, data->longitude, 28);
+  AddPayload(message, data->latitude, 27);
+  AddPayload(message, data->course_over_ground, 12);
+  AddPayload(message, data->time_stamp, 6);
   AddPayload(message, 0, 8); // regional reserved
-  AddPayload(message, dte, 1);
+  AddPayload(message, data->dte, 1);
   AddPayload(message, 0, 3); // spare
-  AddPayload(message, assigned, 1);
-  AddPayload(message, raim_flag, 1);
+  AddPayload(message, data->assigned, 1);
+  AddPayload(message, data->raim_flag, 1);
   AddPayload(message, SOTDMA, 1);
   AddPayload(message, 0, 19);
   EncodeAISNMEA(message);
@@ -106,26 +106,26 @@ void EncodeMessage9(struct AISMessage *message) {
   ComputeChecksum(message);
 }
 
-void EncodeMessage18(struct AISMessage *message) {
+void EncodeMessage18(struct AISMessage *message, struct AISData const *data) {
   AddPayload(message, 18, 6); // message type
   AddPayload(message, 0, 2);
-  AddPayload(message, mmsi, 30);
+  AddPayload(message, data->mmsi, 30);
   AddPayload(message, 15, 8); // regional reserved
-  AddPayload(message, speed_over_ground, 10);
-  AddPayload(message, position_accuracy, 1);
-  AddPayload(message, longitude, 28);
-  AddPayload(message, latitude, 27);
-  AddPayload(message, course_over_ground, 12);
-  AddPayload(message, true_heading, 9);
-  AddPayload(message, time_stamp, 6);
+  AddPayload(message, data->speed_over_ground, 10);
+  AddPayload(message, data->position_accuracy, 1);
+  AddPayload(message, data->longitude, 28);
+  AddPayload(message, data->latitude, 27);
+  AddPayload(message, data->course_over_ground, 12);
+  AddPayload(message, data->true_heading, 9);
+  AddPayload(message, data->time_stamp, 6);
   AddPayload(message, 0, 2); // regional reserved
   AddPayload(message, 1, 1);
   AddPayload(message, 1, 1); // display flag
   AddPayload(message, 1, 1); // dsc flag
   AddPayload(message, 1, 1); // band flag
   AddPayload(message, 1, 1); // message22 flag
-  AddPayload(message, assigned, 1); // message22 flag
-  AddPayload(message, raim_flag, 1);
+  AddPayload(message, data->assigned, 1); // message22 flag
+  AddPayload(message, data->raim_flag, 1);
   AddPayload(message, ITDMA, 1);
   AddPayload(message, RADIO_STATUS, 19);
   EncodeAISNMEA(message);
@@ -134,16 +134,16 @@ void EncodeMessage18(struct AISMessage *message) {
   ComputeChecksum(message);
 }
 
-void EncodeMessage24A(struct AISMessage *message) {
+void EncodeMessage24A(struct AISMessage *message, struct AISData const *data) {
   AddPayload(message, 24, 6); // message type
   AddPayload(message, 0, 2); // repeat indicator
-  AddPayload(message, mmsi, 30);
-  AddPayload(message, part_number, 2); // part number
+  AddPayload(message, data->mmsi, 30);
+  AddPayload(message, data->part_number, 2); // part number
 
   // const char vessel_name[21] = "RLGGYP";
 
   for (uint8_t i = 0; i < 20; ++i) {
-    AddPayload(message, vessel_name[i] - 64, 6);
+    AddPayload(message, data->vessel_name[i] - 64, 6);
   }
 
   EncodeAISNMEA(message);
@@ -152,12 +152,12 @@ void EncodeMessage24A(struct AISMessage *message) {
   ComputeChecksum(message);
 }
 
-void EncodeMessage24B(struct AISMessage *message) {
+void EncodeMessage24B(struct AISMessage *message, struct AISData const *data) {
   AddPayload(message, 24, 6); // message type
   AddPayload(message, 0, 2); // repeat indicator
-  AddPayload(message, mmsi, 30);
-  AddPayload(message, part_number, 2); // part number
-  AddPayload(message, ship_type, 8);
+  AddPayload(message, data->mmsi, 30);
+  AddPayload(message, data->part_number, 2); // part number
+  AddPayload(message, data->ship_type, 8);
 
   uint32_t vendor_id = 1234567;
   AddPayload(message, ((vendor_id >> 12) & 255) - 64, 6);
@@ -169,7 +169,7 @@ void EncodeMessage24B(struct AISMessage *message) {
   // const char call_sign[8] = "CALLSIG";
 
   for (uint8_t i = 0; i < 7; ++i) {
-    AddPayload(message, call_sign[i] - 64, 6);
+    AddPayload(message, data->call_sign[i] - 64, 6);
   }
 
   AddPayload(message, 0, 9);
