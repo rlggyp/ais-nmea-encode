@@ -1,7 +1,20 @@
 # ais-nmea-encode
 encode ais nmea message 18, 24A, 24B
 
-### Use EBYTE Library
+# How to Build
+```bash
+mkdir build && cd build
+cmake ../encode/ && cmake --build .
 ```
-git clone https://github.com/KrisKasprzak/EBYTE.git
+
+# Run
+```bash
+# running c code
+./ais_nmea_encode
+
+# running c++ code
+./ais_nmea_encode_example
 ```
+
+# Pictures
+![image](.github/images/img.jpg)
